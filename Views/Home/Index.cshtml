@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Movie>
+<div class="container">
+    <div class="row">
+        @foreach (var movie in Model)
+        {
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="row g-0 h-100">
+                        <div class="col-4 h-100">
+                            <img src="~/movies/@movie.ImgUrl" class="img-fluid rounded-start h-100" style="object-fit: cover;" alt="@movie.Name"> <!-- Full height image with object-fit -->
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body h-100 d-flex flex-column">
+                                <h5 class="card-title" style="color:darkgreen">@movie.Name</h5>
+                                <p>Price :@movie.Price</p>
+                                <p>Cinema:<a href="/Cinema/MoreDetails?id=@movie.Cinema.Id" style="color:red"> @movie.Cinema.Name</a></p>
+                                <p>Start Date: @movie.StartDate</p>
+                                <p>End Date: @movie.EndDate</p>
+                                <p>Category: <a href="/Category/AllCategory?id=@movie.Category.Id" style="color:red">@movie.Category.Name</a></p>
+                                @if(movie.MovieStatus==MovieStatus.Available)
+                                {
+                                    <span class="badge bg-info" style="max-width: 80px;">@movie.MovieStatus</span>
+                                    <br />
+                                    <p>
+                                        <a asp-controller="Home" asp-action="MoreDetails" asp-route-id="@movie.Id" type="button" class="btn btn-outline-primary">More Details</a>
+                                        <a type="button" class="btn btn-success">Book Ticket</a>
+                                    </p>
+                                }
+                                else if (movie.MovieStatus == MovieStatus.Upcoming)
+                                {
+                                    <span class="badge bg-dark" style="max-width: 80px;">@movie.MovieStatus</span>
+                                    <br />
+                                    <p>
+                                        <a asp-controller="Home" asp-action="MoreDetails" asp-route-id="@movie.Id"  type="button" class="btn btn-outline-primary">More Details</a>
+                                        <a type="button" class="btn btn-success">Book Ticket</a>
+                                    </p>
+                                }else{
+                                    <span class="badge bg-danger" style="max-width: 80px;">@movie.MovieStatus</span>
+                                    <br />
+                                    <p>
+                                        <a asp-controller="Home" asp-action="MoreDetails" asp-route-id="@movie.Id" type="button" class="btn btn-outline-primary">More Details</a>
+                                        <a type="button" class="btn btn-dark">Book Ticket</a>
+                                    </p>
+                                }
+                                <br/>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,19 @@
+﻿@model Cinema
+
+<div class="container-fluid">
+    <div class="card mb-3 w-100">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="~/movies/@Model" class="img-fluid rounded-start" alt="@Model.Name">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.Name</h5>
+                    <p>@Model.Description</p>
+                    <p>Address: @Model.Address</p>
+                    <a href="/Cinema/AllCinemas?id=@Model.Id" class="btn btn-success">All Movies</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

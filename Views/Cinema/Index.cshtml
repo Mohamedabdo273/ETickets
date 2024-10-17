@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Cinema>
+<table class="table table-hover">
+    <thead>
+        <h1>
+            Cinemas
+        </h1>
+    </thead>
+    <tbody>
+        <tr>
+    <th scope="row">Name</th>
+    <th scope="row">Description</th>
+    <th scope="row">Address</th>  
+    <th></th>
+    </tr>
+        @foreach (var cinema in Model)
+        {
+        <tr class="table-active">
+            <th>
+                    @cinema.Name
+            </th>
+                <th>
+                    @cinema.Description
+                </th>
+                <th>
+                    @cinema.Address
+                </th>
+            <th><a href="/Cinema/AllCinemas?id=@cinema.Id" class="btn btn-success">All Movies</a></th>
+        </tr>
+        }
+    </tbody>
+</table>
