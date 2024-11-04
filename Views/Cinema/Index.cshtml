@@ -1,31 +1,84 @@
-﻿@model IEnumerable<Cinema>
+﻿@model IEnumerable<ETickets.Models.Cinema>
+
+@{
+    ViewData["Title"] = "Cinemas";
+}
+<form action="/Cinema/Index">
+    <div class="row d-flex mb-3">
+        <div class="col-4">
+            <input type="text" class="form-control" name="query" placeholder="Search For Cinemas">
+        </div>
+        <div class="col-2">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+</form>
+<h1>Cinemas</h1>
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
+</p>
 <table class="table table-hover">
     <thead>
-        <h1>
-            Cinemas
-        </h1>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Address</th>
+            <th scope="col">Cinema Logo</th>
+            <th scope="col">Actions</th>
+        </tr>
     </thead>
     <tbody>
-        <tr>
-    <th scope="row">Name</th>
-    <th scope="row">Description</th>
-    <th scope="row">Address</th>  
-    <th></th>
-    </tr>
         @foreach (var cinema in Model)
         {
-        <tr class="table-active">
-            <th>
-                    @cinema.Name
-            </th>
-                <th>
-                    @cinema.Description
-                </th>
-                <th>
-                    @cinema.Address
-                </th>
-            <th><a href="/Cinema/AllCinemas?id=@cinema.Id" class="btn btn-success">All Movies</a></th>
-        </tr>
+            <tr class="table-active">
+                <td>@cinema.Name</td>
+                <td>@cinema.Description</td>
+                <td>@cinema.Address</td>
+                <td><img src="/Logo/@cinema.CinemaLogo"/></td>
+                <td>
+                    <a asp-controller="Cinema" asp-action="AllCinemas" asp-route-id="@cinema.Id">All Movies</a>
+                    <a asp-controller="Cinema" asp-action="Edit" asp-route-id="@cinema.Id">Edit</a>
+                    <a href="#" class="text-danger" data-toggle="modal" data-target="#deleteModal"
+                       data-id="@cinema.Id" data-name="@cinema.Name">Delete</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete the cinema <strong id="cinemaName"></strong>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="post" asp-controller="Cinema" asp-action="Delete">
+                    <input type="hidden" name="id" id="cinemaId" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $('#deleteModal').on('show.bs.modal', function (event) {
+            var link = $(event.relatedTarget); // Button that triggered the modal
+            var id = link.data('id'); // Extract info from data-* attributes
+            var name = link.data('name');
+            var modal = $(this);
+            modal.find('#cinemaName').text(name); // Set the cinema name in the modal
+            modal.find('#cinemaId').val(id); // Set the cinema ID in the hidden input
+        });
+    </script>
+}

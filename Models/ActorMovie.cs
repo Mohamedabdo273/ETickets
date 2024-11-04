@@ -1,15 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace ETickets.Models
 {
     public class ActorMovie
     {
+        public int Id { get; set; }
         public int ActorId { get; set; }
-        public Actor Actor { get; set; } 
-
+        [ValidateNever]
+        public Actor? Actor { get; set; }
         public int MovieId { get; set; }
-        public Movie Movie { get; set; }
+        [ValidateNever]
+        public Movie? Movie { get; set; }
+
     }
 }

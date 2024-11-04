@@ -27,22 +27,22 @@
                                     <p>End Date: @movie.EndDate</p>
                                     <p>Category: <a asp-controller="Category" asp-action="AllCategory" asp-route-id="@movie.Category.Id" style="color:red">@movie.Category.Name</a></p>
 
-                                    @if (movie.MovieStatus == MovieStatus.Available)
+                                    @if (movie.MovieStatus == MovieStatus.Available && movie.quantity != 0)
                                     {
                                         <span class="badge bg-info" style="max-width: 80px;">@movie.MovieStatus</span>
                                         <br />
                                         <p>
-                                            <a asp-controller="Home" asp-action="MoreDetails" asp-route-id="@movie.Id" type="button" class="btn btn-outline-primary">More Details</a>
-                                            <a type="button" class="btn btn-success">Book Ticket</a>
+                                            <a asp-controller="Home" asp-action="MoreDetails" asp-route-id="@movie.Id" class="btn btn-outline-primary">More Details</a>
+                                            <a asp-controller="Home" asp-action="BookTicket" asp-route-id="@movie.Id" class="btn btn-success">Book Ticket</a>
                                         </p>
                                     }
-                                    else if (movie.MovieStatus == MovieStatus.Upcoming)
+                                    else if (movie.MovieStatus == MovieStatus.Upcoming && movie.quantity != 0)
                                     {
                                         <span class="badge bg-dark" style="max-width: 80px;">@movie.MovieStatus</span>
                                         <br />
                                         <p>
-                                            <a asp-controller="Home" asp-action="MoreDetails" asp-route-id="@movie.Id" type="button" class="btn btn-outline-primary">More Details</a>
-                                            <a type="button" class="btn btn-success">Book Ticket</a>
+                                            <a asp-controller="Home" asp-action="MoreDetails" asp-route-id="@movie.Id" class="btn btn-outline-primary">More Details</a>
+                                            <a asp-controller="Home" asp-action="BookTicket" asp-route-id="@movie.Id" class="btn btn-success">Book Ticket</a>
                                         </p>
                                     }
                                     else
@@ -50,8 +50,8 @@
                                         <span class="badge bg-danger" style="max-width: 80px;">@movie.MovieStatus</span>
                                         <br />
                                         <p>
-                                            <a asp-controller="Home" asp-action="MoreDetails" asp-route-id="@movie.Id" type="button" class="btn btn-outline-primary">More Details</a>
-                                            <a type="button" class="btn btn-dark">Book Ticket</a>
+                                            <a asp-controller="Home" asp-action="MoreDetails" asp-route-id="@movie.Id" class="btn btn-outline-primary">More Details</a>
+                                            <a class="btn btn-dark">Book Ticket</a>
                                         </p>
                                     }
                                     <br />

@@ -1,0 +1,100 @@
+﻿@model IEnumerable<ETickets.Models.Movie>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<form action="/Movie/Index">
+    <div class="row d-flex mb-3">
+        <div class="col-4">
+            <input type="text" class="form-control" name="query" placeholder="Search...">
+        </div>
+        <div class="col-2">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+</form>
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Id)</th>
+            <th>@Html.DisplayNameFor(model => model.Name)</th>
+            <th>@Html.DisplayNameFor(model => model.Description)</th>
+            <th>@Html.DisplayNameFor(model => model.Price)</th>
+            <th>@Html.DisplayNameFor(model => model.ImgUrl)</th>
+            <th>@Html.DisplayNameFor(model => model.TrailerUrl)</th>
+            <th>@Html.DisplayNameFor(model => model.StartDate)</th>
+            <th>@Html.DisplayNameFor(model => model.EndDate)</th>
+            <th>@Html.DisplayNameFor(model => model.MovieStatus)</th>
+            <th>@Html.DisplayNameFor(model => model.quantity)</th>
+            <th>Cinema</th>
+            <th>Category</th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                <td><img src="/movies/@item.ImgUrl" style="width: 70px; height: 70px;" /></td>
+                <td>@Html.DisplayFor(modelItem => item.TrailerUrl)</td>
+                <td>@Html.DisplayFor(modelItem => item.StartDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.EndDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.MovieStatus)</td>
+                <td>@Html.DisplayFor(modelItem => item.Cinema.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Category.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.quantity)</td>
+                
+                <td>
+                    <a asp-controller="Home" asp-action="MoreDetails" asp-route-id="@item.Id">Details</a>
+                    <a asp-controller="Movie" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <button  data-bs-toggle="modal" data-bs-target="#deleteModal"
+                            onclick="setDeleteId(@item.Id)">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this movie?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="post">
+                    <input type="hidden" name="id" id="deleteMovieId" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setDeleteId(id) {
+        document.getElementById('deleteMovieId').value = id;
+        document.getElementById('deleteForm').action = '@Url.Action("Delete", "Movie")/' + id;
+    }
+</script>
+
+<!-- Include Bootstrap JS (CDN example) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -21,7 +21,7 @@
                     <p>Category: @Model.Category.Name</p>
                     @foreach(var actor in Model.Actors)
                     {
-                        <a asp-action="Actor" asp-route-id="@actor.Actor.Id" ><img src="~/cast/@actor.Actor.ProfilePicture" class="img-fluid rounded-start"></a>
+                        <a asp-action="Actor" asp-route-id="@actor.Actor.Id"><img src="~/cast/@actor.Actor.ProfilePicture" class="img-fluid rounded-start"></a>
                     } 
                     <br />
                     <video width=50%" controls class="m-5">

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using ETickets.Utility
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ETickets.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 <body>
     <header>
@@ -23,17 +25,43 @@
                                 <span class="visually-hidden">(current)</span>
                             </a>
                         </li>
+                        @if (User.IsInRole(SD.adminRole))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Management System</a>
+                                <div class="dropdown-menu">
+                                    <a class="nav-link" href="/Category/Index">Categories</a>
+                                    <a class="nav-link" href="/Cinema/index">Cinemas</a>
+                                    <a class="nav-link" asp-controller="Actor" asp-action="Index">Actors</a>
+                                    <a class="nav-link" asp-controller="Movie" asp-action="Index">Movies</a>
+                                    <a class="nav-link" asp-controller="ActorMovies" asp-action="Index">Actor Movies</a>
+                                    <a class="nav-link" asp-controller="BookTicket" asp-action="Order">Orders</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Roles" asp-action="Index">User Roles</a>
+                                </div>
+                            </li>
+
+                        }
+                         @if (!User.IsInRole(SD.adminRole))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-success" asp-area="" asp-controller="BookTicket" asp-action="Index">Cart<i class="bi bi-cart-check-fill"></i></a>
+                            </li>
+                        }
                         <li class="nav-item">
-                            <a class="nav-link" href="/Category/Index">Categories</a>
+                            <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" href="/Cinema/index">Cinemas</a>
+                            <a class="nav-link " asp-area="" asp-controller="Home" asp-action="Index">Welcome @User.Identity.Name</a>
                         </li>
                     </ul>
-                    <form class="d-flex" method="get" action="/Home/Search">
+                    @if (!User.IsInRole(SD.adminRole))
+                    {
+                      <form class="d-flex" method="get" action="/Home/Search">
                         <input class="form-control me-sm-2" type="search" name="query" placeholder="Search for movies" />
                         <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                    </form>
+                      </form>
+                    }
                 </div>
             </div>
         </nav>
@@ -54,6 +82,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -1,20 +1,79 @@
-﻿@model IEnumerable<Category>
+﻿@model IEnumerable<ETickets.Models.Category>
+
+@{
+    ViewData["Title"] = "Categories";
+}
+
+<h1>Categories</h1>
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
+</p>
+<form action="/Category/Index">
+    <div class="row d-flex mb-3">
+        <div class="col-4">
+            <input type="text" class="form-control" name="query" placeholder="Search For Categories">
+        </div>
+        <div class="col-2">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+</form>
 <table class="table table-hover">
-    <thead>       
-            <h1>
-             Categories
-            </h1>
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Actions</th>
+        </tr>
     </thead>
     <tbody>
-       <th scope="row">Name</th>
-       @foreach(var category in Model)
-       {
-        <tr class="table-active">       
-           <th>
-               @category.Name
-           </th>
-            <th><a asp-controller="Category" asp-action="AllCategory" asp-route-id="@category.Id" >All Movies</a></th>
-        </tr>
-       }
+        @foreach (var category in Model)
+        {
+            <tr class="table-active">
+                <td>@category.Name</td>
+                <td>
+                    <a asp-controller="Category" asp-action="AllCategory" asp-route-id="@category.Id">All Movies</a>
+                    <a asp-controller="Category" asp-action="Edit" asp-route-id="@category.Id">Edit</a>
+                    <a href="#" class="text-danger" data-toggle="modal" data-target="#deleteModal"
+                       data-id="@category.Id" data-name="@category.Name">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete the category <strong id="categoryName"></strong>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="post" asp-controller="Category" asp-action="Delete">
+                    <input type="hidden" name="id" id="categoryId" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $('#deleteModal').on('show.bs.modal', function (event) {
+            var link = $(event.relatedTarget); // Button that triggered the modal
+            var id = link.data('id'); // Extract info from data-* attributes
+            var name = link.data('name');
+            var modal = $(this);
+            modal.find('#categoryName').text(name); // Set the category name in the modal
+            modal.find('#categoryId').val(id); // Set the category ID in the hidden input
+        });
+    </script>
+}
