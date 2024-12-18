@@ -11,6 +11,7 @@ namespace ETickets.Repository.IRepository
         T? GetOne(Expression<Func<T, object>>[]? includeProps = null, Expression<Func<T, bool>>? expression = null, bool tracked = true);
 
         void Create(T entity);
+
         public IEnumerable<T> GetWithIncludes(
            Func<IQueryable<T>, IQueryable<T>> includeFunc,
            Expression<Func<T, bool>>? expression = null,
